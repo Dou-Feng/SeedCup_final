@@ -80,7 +80,6 @@ class Player:
         self.hitRate = float(tempRate) / 100
         self.hitTime = float(list[6])
         self.shootTime = float(list[7])
-        print list[8]
         if list[8] != "" :
             tempRate = list[8].strip('%')
         else :
@@ -139,33 +138,32 @@ class Team:
             self.scoreAb += player.importance * player.scoreAb / self.all_importance
 
 
-
-teamData = open("./teamData.csv", "r")
-teamData.readline()
-str = teamData.readline()
-str = str.split("\r\n")[0]
-list = str.split(",")
-list_player = []
-list_team = []
-for k in range(0, 208) :
-    team_temp = Team(k)
-    list_team.append(team_temp)
-while str != "" :
-    player = Player(list)
-    print player.score, player.block, player.penaltyRate
-    list_player.append(player)
+def TeamData() :
+    teamData = open("./teamData.csv", "r")
+    teamData.readline()
     str = teamData.readline()
     str = str.split("\r\n")[0]
     list = str.split(",")
+    list_player = []
+    list_team = []
+    for k in range(0, 208) :
+        team_temp = Team(k)
+        list_team.append(team_temp)
+    while str != "" :
+        player = Player(list)
+        list_player.append(player)
+        str = teamData.readline()
+        str = str.split("\r\n")[0]
+        list = str.split(",")
 
-for player in list_player :
-    list_team[player.teamNumber].add_player(player)
+    for player in list_player :
+        list_team[player.teamNumber].add_player(player)
 
-j = 0
-for team in list_team:
-    team.calTeamAb()
-    print j, "  ", team.shootAb
-    j = j + 1
+    j = 0
+    for team in list_team:
+        team.calTeamAb()
+        j = j + 1
+    return list_team
 
 
 
