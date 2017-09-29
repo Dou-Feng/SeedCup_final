@@ -1,5 +1,5 @@
-file = open("/home/cainot/Documents/teamData.csv")
-fileToWrite=open("/home/cainot/Documents/teamDataGet.csv","w")
+file = open("./teamData.csv")
+fileToWrite=open("./teamDataGet.csv","w")
 line = file.readline()
 percent=0.0
 while line:

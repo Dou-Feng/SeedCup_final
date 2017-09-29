@@ -1,7 +1,7 @@
 import re
 
-file = open("/home/cainot/Documents/matchDataTrain.csv")
-fileToWirte = open("/home/cainot/Documents/matchDataGet.csv", "w")
+file = open("./matchDataTrain.csv")
+fileToWirte = open("./matchDataGet.csv", "w")
 line = file.readline()
 pattern = re.compile("\D")
 while line:

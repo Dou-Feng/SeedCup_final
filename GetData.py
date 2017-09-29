@@ -3,7 +3,7 @@ import GetTeamData
 
 
 def getTarget():
-    fileMatch = open("/home/cainot/Documents/matchDataGet.csv")
+    fileMatch = open("./matchDataGet.csv")
     # fileTeam=open("")
     line = fileMatch.readline()
     targetList = []
@@ -29,7 +29,7 @@ def getData():
     allDataList = []
     dataList = []
     scoreList = []
-    fileMatch = open("/home/cainot/Documents/matchDataGet.csv")
+    fileMatch = open("./matchDataGet.csv")
     teamList = GetTeamData.TeamData()
     line = fileMatch.readline()
     while line:
