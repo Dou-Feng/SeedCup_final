@@ -1,7 +1,7 @@
 import numpy as np
 import GetTeamData
 
-
+#Training Y
 def getTarget():
     fileMatch = open("./matchDataGet.csv")
     # fileTeam=open("")
@@ -24,7 +24,7 @@ def getTeam(teamNum, teamList):
         if teamNum == team.number:
             return team
 
-
+#Training X
 def getData():
     allDataList = []
     dataList = []
@@ -59,45 +59,3 @@ def getData():
         line = fileMatch.readline()
     data = np.array(allDataList)
     return data
-    #
-    # def getTest():
-    #     allDataList=[]
-    #     dataList = []
-    #     scoreList=[]
-    #
-    #     fileMatch = open("/home/cainot/Documents/matchDataGet.csv")
-    #     teamList = GetTeamData.TeamData()
-    #     line = fileMatch.readline()
-    #
-    #     while line:
-    #         lineList = line.split(",")
-    #         for i in range(0, 6):
-    #             dataList.append(int(lineList[i]))
-    #
-    #         team = getTeam(,teamList)
-    #         scoreList.append(team.all_importance)
-    #         scoreList.append(team.shootAb)
-    #         scoreList.append(team.threeShootAb)
-    #         scoreList.append(team.bbAb)
-    #         scoreList.append(team.penaltyAb)
-    #         scoreList.append(team.scoreAb)
-    #
-    #         team=getTeam(int(dataList[1]),teamList)
-    #         scoreList.append(team.all_importance)
-    #         scoreList.append(team.shootAb)
-    #         scoreList.append(team.threeShootAb)
-    #         scoreList.append(team.bbAb)
-    #         scoreList.append(team.penaltyAb)
-    #         scoreList.append(team.scoreAb)
-    #
-    #         del dataList[0]
-    #         del dataList[0]
-    #
-    #         dataList=dataList+scoreList
-    #         scoreList=[]
-    #         allDataList.append(dataList)
-    #         dataList=[]
-    #         line = fileMatch.readline()
-    #
-    #     data = np.array(allDataList)
-    #     return data
