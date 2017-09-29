@@ -3,20 +3,21 @@
 
 K_SHOT_TIME = 1
 K_HIT_TIME = 5
-K_SHOT_RATE = 10
-K_THREESHOT_RATE = 10
+K_SHOT_RATE = 3
+K_THREESHOT_RATE = 7
 K_THREEHIT_TIME = 5
 K_THREESHOT_TIME = 2
 K_F_BB = 3
 K_B_BB = 1
 K_SCORE = 5
 K_LOSE = -3
-K_BLOCK = 4
-K_STEAL = 4
+K_BLOCK = 6
+K_STEAL = 8
 K_CHARGE = -2
 K_PENALTY_TIME = 1
 K_PENALTYHIT_TIME = 4
-K_PENALTY_RATE = 10
+K_PENALTY_RATE = 7
+
 K_SHOW = 1
 K_FIRST_SHOW = 2
 K_SHOWTIME = 2
@@ -47,7 +48,6 @@ class Player:
     block = 0
     lose = 0
     charge = 0
-    score = 0
     # ablity cal
     importance = 0
     shootAb = 0
@@ -65,7 +65,7 @@ class Player:
         self.threeShootAb = K_SHOT_RATE * self.threeHitRate + K_THREEHIT_TIME * self.threeHitTime
         self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB
         self.penaltyAb = K_PENALTY_RATE * self.penaltyRate + K_PENALTY_TIME * self.penaltyHitTime
-        # self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
+        self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
         self.attackAb = K_SHOT_TIME * self.shootTime + K_THREESHOT_TIME * self.threeShootTime + K_SCORE * self.score
         self.defendAb = K_BLOCK * self.block + K_STEAL * self.steal
         self.sideEffectAb = K_CHARGE * self.charge + K_LOSE * self.lose
@@ -117,15 +117,10 @@ class Team:
     threeShootAb = 0
     bbAb = 0
     penaltyAb = 0
-    scoreAb = 0
-    host_win = 0
-    host_lose = 0
-    guest_win = 0
-    guest_lose = 0
-    score_delta = 0
     attackAb = 0
     defendAb = 0
     sideEffectAb = 0
+    scoreAb = 0
 
     def __init__(self, number):
         self.number = number
@@ -143,6 +138,7 @@ class Team:
             self.attackAb += player.importance * player.attackAb / self.all_importance
             self.defendAb += player.importance * player.defendAb /self.all_importance
             self.sideEffectAb += player.importance * player.defendAb / self.all_importance
+            self.scoreAb += player.importance * player.scoreAb / self.all_importance
 
 
 def TeamData():
