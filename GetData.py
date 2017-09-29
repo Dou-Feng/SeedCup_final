@@ -42,14 +42,18 @@ def getData():
         scoreList.append(team.threeShootAb)
         scoreList.append(team.bbAb)
         scoreList.append(team.penaltyAb)
-        scoreList.append(team.scoreAb)
+        scoreList.append(team.attackAb)
+        scoreList.append(team.defendAb)
+        scoreList.append(team.sideEffectAb)
         team = getTeam(int(dataList[1]), teamList)
         scoreList.append(team.all_importance)
         scoreList.append(team.shootAb)
         scoreList.append(team.threeShootAb)
         scoreList.append(team.bbAb)
         scoreList.append(team.penaltyAb)
-        scoreList.append(team.scoreAb)
+        scoreList.append(team.attackAb)
+        scoreList.append(team.defendAb)
+        scoreList.append(team.sideEffectAb)
         del dataList[0]
         del dataList[0]
         dataList = dataList + scoreList

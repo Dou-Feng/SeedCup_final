@@ -1,19 +1,25 @@
 # player_ability
+#coding=utf-8
+
 K_SHOT_TIME = 1
+K_HIT_TIME = 5
 K_SHOT_RATE = 10
 K_THREESHOT_RATE = 10
+K_THREEHIT_TIME = 5
 K_THREESHOT_TIME = 2
 K_F_BB = 3
 K_B_BB = 1
-K_SCORE = 20
+K_SCORE = 5
 K_LOSE = -3
 K_BLOCK = 4
 K_STEAL = 4
 K_CHARGE = -2
 K_PENALTY_TIME = 1
-K_PENALTY_RATE = 20
+K_PENALTYHIT_TIME = 4
+K_PENALTY_RATE = 10
 K_SHOW = 1
 K_FIRST_SHOW = 2
+K_SHOWTIME = 2
 
 
 # player_in_team
@@ -49,14 +55,20 @@ class Player:
     penaltyAb = 0
     bbAb = 0
     scoreAb = 0
+    attackAb = 0
+    defendAb = 0
+    sideEffectAb = 0
 
     def cal_ability(self):
-        self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime
-        self.shootAb = K_SHOT_RATE * self.hitRate + K_SHOT_TIME * self.hitTime
-        self.threeShootAb = K_SHOT_RATE * self.threeHitRate + K_THREESHOT_TIME * self.threeHitTime
+        self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime + K_SHOWTIME * self.playTime
+        self.shootAb = K_SHOT_RATE * self.hitRate + K_HIT_TIME * self.hitTime
+        self.threeShootAb = K_SHOT_RATE * self.threeHitRate + K_THREEHIT_TIME * self.threeHitTime
         self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB
-        self.penaltyAb = K_PENALTY_RATE * self.penaltyRate + K_PENALTY_TIME * self.penaltyTime
-        self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
+        self.penaltyAb = K_PENALTY_RATE * self.penaltyRate + K_PENALTY_TIME * self.penaltyHitTime
+        # self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
+        self.attackAb = K_SHOT_TIME * self.shootTime + K_THREESHOT_TIME * self.threeShootTime + K_SCORE * self.score
+        self.defendAb = K_BLOCK * self.block + K_STEAL * self.steal
+        self.sideEffectAb = K_CHARGE * self.charge + K_LOSE * self.lose
 
     def __init__(self, list):
         self.teamNumber = int(list[0])
@@ -111,6 +123,9 @@ class Team:
     guest_win = 0
     guest_lose = 0
     score_delta = 0
+    attackAb = 0
+    defendAb = 0
+    sideEffectAb = 0
 
     def __init__(self, number):
         self.number = number
@@ -125,7 +140,9 @@ class Team:
             self.threeShootAb += player.importance * player.threeShootAb / self.all_importance
             self.bbAb += player.importance * player.bbAb / self.all_importance
             self.penaltyAb += player.importance * player.penaltyAb / self.all_importance
-            self.scoreAb += player.importance * player.scoreAb / self.all_importance
+            self.attackAb += player.importance * player.attackAb / self.all_importance
+            self.defendAb += player.importance * player.defendAb /self.all_importance
+            self.sideEffectAb += player.importance * player.defendAb / self.all_importance
 
 
 def TeamData():
