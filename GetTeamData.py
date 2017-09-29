@@ -1,27 +1,21 @@
 # player_ability
 #coding=utf-8
 
-K_SHOT_TIME = 1
-K_HIT_TIME = 5
-K_SHOT_RATE = 3
-K_THREESHOT_RATE = 7
-K_THREEHIT_TIME = 5
-K_THREESHOT_TIME = 2
-K_F_BB = 3
-K_B_BB = 1
-K_SCORE = 5
-K_LOSE = -3
-K_BLOCK = 6
-K_STEAL = 8
-K_CHARGE = -2
-K_PENALTY_TIME = 1
-K_PENALTYHIT_TIME = 4
-K_PENALTY_RATE = 7
-
-K_SHOW = 1
-K_FIRST_SHOW = 2
-K_SHOWTIME = 2
-
+K_SHOT_TIME = 0.0001
+K_SHOT_RATE = 0.001
+K_THREESHOT_RATE = 0.002
+K_THREESHOT_TIME = 0.003
+K_F_BB = 0.0003
+K_B_BB = 0.0001
+K_SCORE = 0.003
+K_LOSE = -0.003
+K_BLOCK = 0.004
+K_STEAL = 0.004
+K_CHARGE = -0.002
+K_PENALTY_TIME = 0.0001
+K_PENALTY_RATE = 0.0002
+K_SHOW = 0.0001
+K_FIRST_SHOW = 0.0002
 
 # player_in_team
 class Player:
@@ -60,9 +54,9 @@ class Player:
     sideEffectAb = 0
 
     def cal_ability(self):
-        self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime + K_SHOWTIME * self.playTime
-        self.shootAb = K_SHOT_RATE * self.hitRate + K_HIT_TIME * self.hitTime
-        self.threeShootAb = K_SHOT_RATE * self.threeHitRate + K_THREEHIT_TIME * self.threeHitTime
+        self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime
+        self.shootAb = K_SHOT_RATE * self.hitRate + K_SHOT_TIME * self.hitTime
+        self.threeShootAb = K_SHOT_RATE * self.threeHitRate
         self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB
         self.penaltyAb = K_PENALTY_RATE * self.penaltyRate + K_PENALTY_TIME * self.penaltyHitTime
         self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
@@ -142,7 +136,7 @@ class Team:
 
 
 def TeamData():
-    teamData = open("./teamData.csv", "r")
+    teamData = open("./teamDataGet.csv", "r")
     teamData.readline()
     str = teamData.readline()
     str = str.split("\r\n")[0]
