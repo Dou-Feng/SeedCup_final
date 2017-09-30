@@ -101,7 +101,6 @@ def getData():
         scoreList.append(team.charge)
 
 
-
         del dataList[0]
         del dataList[0]
         dataList = dataList + scoreList

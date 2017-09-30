@@ -1,22 +1,23 @@
 # player_ability
 #coding=utf-8
 
-K_SHOT_TIME = 10
-K_SHOT_RATE = 3
-K_THREESHOT_RATE = 5
-K_THREESHOT_TIME = 7
-K_F_BB = 10
-K_B_BB = 6
-K_SCORE = 12
-K_LOSE = -5
-K_BLOCK = 11
-K_STEAL = 16
-K_CHARGE = -3
-K_PENALTY_TIME = 1
-K_PENALTY_RATE = 1
-K_SHOW = 1
-K_FIRST_SHOW = 2
-K_SHOWTIME_ALL = 1
+K_SHOT_TIME = 0.01
+K_SHOT_RATE = 0.003
+K_THREESHOT_RATE = 0.005
+K_THREESHOT_TIME = 0.007
+K_F_BB = 0.010
+K_B_BB = 0.006
+K_SCORE = 0.012
+K_LOSE = 0.005
+K_BLOCK = 0.011
+K_STEAL = 0.016
+K_CHARGE = 0.003
+K_PENALTY_TIME = 0.001
+K_PENALTY_RATE = 0.001
+K_SHOW = 0.001
+K_FIRST_SHOW = 0.002
+K_SHOWTIME_ALL = 0.001
+K_SUPPORT = 0.005
 
 # player_in_team
 class Player:
@@ -64,6 +65,23 @@ class Player:
         self.attackAb = K_SHOT_TIME * self.shootTime + K_THREESHOT_TIME * self.threeShootTime + K_SCORE * self.score
         self.defendAb = K_BLOCK * self.block + K_STEAL * self.steal
         self.sideEffectAb = K_CHARGE * self.charge + K_LOSE * self.lose
+        self.hitRate *= K_SHOT_RATE
+        self.hitTime *= K_SHOT_TIME
+        self.shootTime *= K_SHOT_TIME
+        self.threeHitRate *= K_THREESHOT_RATE
+        self.threeHitTime *= K_SHOT_TIME
+        self.threeShootTime *= K_THREESHOT_TIME
+        self.penaltyRate *= K_PENALTY_RATE
+        self.penaltyHitTime *= K_PENALTY_TIME
+        self.penaltyTime *= K_PENALTY_TIME
+        self.backboard *= K_B_BB
+        self.forwardBB *= K_F_BB
+        self.backBB *= K_B_BB
+        self.support *= K_SUPPORT
+        self.steal *= K_STEAL
+        self.block *= K_BLOCK
+        self.lose *= K_LOSE
+        self.charge *= K_CHARGE
 
     def __init__(self, list):
         self.teamNumber = int(list[0])
@@ -195,7 +213,6 @@ def TeamData():
         str = teamData.readline()
         str = str.split("\r\n")[0]
         list = str.split(",")
-    print len(list_player)
     for player in list_player:
         team_num = player.teamNumber
         team_temp = list_team[team_num]
@@ -203,7 +220,6 @@ def TeamData():
         team_temp.all_importance += player.importance
     j = 0
     for team in list_team:
-        print len(team.players)
         team.calTeamAb()
         j = j + 1
     return list_team
