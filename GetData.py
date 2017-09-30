@@ -38,9 +38,7 @@ def getData():
         lineList = line.split(",")
         for i in range(0, 6):
             dataList.append(int(lineList[i]))
-        # if dataList[3] !=0:
-        #     scoreList.append(dataList[2]/dataList[3])
-        # elif dataList[3] =
+
         team = getTeam(int(dataList[0]), teamList)
         scoreList.append(team.all_importance)
         scoreList.append(team.shootAb)

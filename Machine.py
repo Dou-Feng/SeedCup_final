@@ -13,6 +13,8 @@ import GetTeamData
 
 data_X = GetData.getData()
 # data_X = preprocessing.scale(data_X)
+
+# print data_X[0]
 data_y = GetData.getTarget()
 
 TrainTime = 300
@@ -20,7 +22,7 @@ model = LinearRegression()
 model.fit(data_X, data_y)
 
 #AUC
-TestTime = 1000
+TestTime = 2000
 
 average = 0
 for i in range(0, TestTime) :
@@ -107,7 +109,7 @@ while line:
     dataList = []
     line = file.readline()
 data_Test = np.array(allDataList)
-# data_Test = preprocessing.scale(data_Test)
+#data_Test = preprocessing.scale(data_Test)
 
 data_y_Test = model.predict(data_Test)
 
