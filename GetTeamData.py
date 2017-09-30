@@ -1,23 +1,23 @@
 # player_ability
 #coding=utf-8
 
-K_SHOT_TIME = 0.06
-K_SHOT_RATE = 0.05
-K_THREESHOT_RATE = 0.05
+K_SHOT_TIME = 0.01
+K_SHOT_RATE = 0.3
+K_THREESHOT_RATE = 0.5
 K_THREESHOT_TIME = 0.07
 K_F_BB = 0.10
 K_B_BB = 0.06
 K_SCORE = 0.12
-K_LOSE = 0.05
+K_LOSE = -0.05
 K_BLOCK = 0.11
 K_STEAL = 0.16
-K_CHARGE = 0.03
+K_CHARGE = -0.03
 K_PENALTY_TIME = 0.01
-K_PENALTY_RATE = 0.01
+K_PENALTY_RATE = 0.1
 K_SHOW = 0.01
 K_FIRST_SHOW = 0.02
 K_SHOWTIME_ALL = 0.01
-K_SUPPORT = 0.05
+K_SUPPORT = 0.03
 
 # player_in_team
 class Player:
@@ -58,7 +58,7 @@ class Player:
     def cal_ability(self):
         self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime + K_SHOWTIME_ALL * self.playTime
         self.shootAb = K_SHOT_RATE * self.hitRate + K_SHOT_TIME * self.hitTime
-        self.threeShootAb = K_SHOT_RATE * self.threeHitRate + K_SHOT_TIME * self.threeHitTime
+        self.threeShootAb = K_SHOT_RATE * self.threeHitRate
         self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB
         self.penaltyAb = K_PENALTY_RATE * self.penaltyRate + K_PENALTY_TIME * self.penaltyHitTime
         self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
@@ -86,93 +86,39 @@ class Player:
     def __init__(self, list):
         self.teamNumber = int(list[0])
         self.number = int(list[1])
-        if list[2] == '':
-            self.showUpTime = 0
-        else:
-            self.showUpTime = int(list[2])
-        if list[3] == '':
-            self.firstShowUpTime = 0
-        else:
-            self.firstShowUpTime = int(list[3])
-        if list[4] == '':
-            self.playTime = 0.0
-        else:
-            self.playTime = float(list[4])
+        self.showUpTime = int(list[2])
+        self.firstShowUpTime = int(list[3])
+        self.playTime = float(list[4])
         if list[5] != "":
             tempRate = list[5].strip('%')
         else:
             tempRate = 0
         self.hitRate = float(tempRate) / 100
-        if list[6] == '' :
-            self.hitTime = 0.0
-        else:
-            self.hitTime = float(list[6])
-        if list[7] == '':
-            self.shootTime = 0.0
-        else:
-            self.shootTime = float(list[7])
-        if list[8] != '':
+        self.hitTime = float(list[6])
+        self.shootTime = float(list[7])
+        if list[8] != "":
             tempRate = list[8].strip('%')
         else:
             tempRate = 0
         self.threeHitRate = float(tempRate) / 100
-        if list[9] == '':
-            self.threeHitTime = 0.0
-        else:
-            self.threeHitTime = float(list[9])
-        if list[10]:
-            self.threeShootTime = 0.0
-        else:
-            self.threeShootTime = float(list[10])
+        self.threeHitTime = float(list[9])
+        self.threeShootTime = float(list[10])
         if list[11] != "":
             tempRate = list[11].strip('%')
         else:
             tempRate = 0
         self.penaltyRate = float(tempRate) / 100
-        if list[12] == '':
-            self.penaltyHitTime = 0.0
-        else:
-            self.penaltyHitTime = float(list[12])
-        if list[13] == '':
-            self.penaltyTime = 0.0
-        else:
-            self.penaltyTime = float(list[13])
-        if list[14] == '':
-            self.backboard = 0.0
-        else:
-            self.backboard = float(list[14])
-        if list[15] == '':
-            self.forwardBB = 0.0
-        else:
-            self.forwardBB = float(list[15])
-        if list[16] == '':
-            self.backBB = 0.0
-        else:
-            self.backBB = float(list[16])
-        if list[17] == '':
-            self.support = 0.0
-        else:
-            self.support = float(list[17])
-        if list[18] == '':
-            self.steal = float(list[18])
-        else:
-            self.steal = float(list[18])
-        if list[19] == '':
-            self.block = 0.0
-        else:
-            self.block = float(list[19])
-        if list[20] == '':
-            self.lose = 0.0
-        else:
-            self.lose = float(list[20])
-        if list[21] == '':
-            self.charge = 0.0
-        else:
-            self.charge = float(list[21])
-        if list[22] == '':
-            self.score = 0.0
-        else:
-            self.score = float(list[22])
+        self.penaltyHitTime = float(list[12])
+        self.penaltyTime = float(list[13])
+        self.backboard = float(list[14])
+        self.forwardBB = float(list[15])
+        self.backBB = float(list[16])
+        self.support = float(list[17])
+        self.steal = float(list[18])
+        self.block = float(list[19])
+        self.lose = float(list[20])
+        self.charge = float(list[21])
+        self.score = float(list[22])
         self.cal_ability()
 
 

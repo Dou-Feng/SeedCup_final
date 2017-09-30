@@ -38,7 +38,11 @@ def getData():
         lineList = line.split(",")
         for i in range(0, 6):
             dataList.append(int(lineList[i]))
-
+        # for j in range(2, 6):
+        #     dataList[j] *= 10
+        # if dataList[3] !=0:
+        #     scoreList.append(dataList[2]/dataList[3])
+        # elif dataList[3] =
         team = getTeam(int(dataList[0]), teamList)
         scoreList.append(team.all_importance)
         scoreList.append(team.shootAb)
@@ -67,7 +71,9 @@ def getData():
         scoreList.append(team.block)
         scoreList.append(team.lose)
         scoreList.append(team.charge)
-
+        scoreList.append(dataList[2] - dataList[3])
+        # scoreList.append(dataList[2] - dataList[3])
+        # scoreList.append(dataList[4] - dataList[5])
 
         team = getTeam(int(dataList[1]), teamList)
         scoreList.append(team.all_importance)
@@ -97,11 +103,12 @@ def getData():
         scoreList.append(team.block)
         scoreList.append(team.lose)
         scoreList.append(team.charge)
+        scoreList.append(dataList[4] - dataList[5])
 
-
+        
         del dataList[0]
         del dataList[0]
-        dataList = dataList + scoreList
+        dataList = scoreList
         allDataList.append(dataList)
         line = fileMatch.readline()
     data = np.array(allDataList)
