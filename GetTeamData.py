@@ -128,6 +128,7 @@ class Team:
 
     def __init__(self, number):
         self.number = number
+        self.playerNum = 0
         self.players = []
         self.all_importance = 0
         self.shootAb = 0
@@ -218,6 +219,7 @@ def TeamData():
         team_temp = list_team[team_num]
         team_temp.players.append(player)
         team_temp.all_importance += player.importance
+        team_temp.playerNum += 1
     j = 0
     for team in list_team:
         team.calTeamAb()
