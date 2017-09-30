@@ -20,7 +20,7 @@ model = LinearRegression()
 model.fit(data_X, data_y)
 
 #AUC
-TestTime = 1000
+TestTime = 10000
 
 average = 0
 for i in range(0, TestTime) :
@@ -100,6 +100,15 @@ while line:
 
     for i in range(2, 6):
         dataList.append(int(list[i]))
+    scoreList.append(dataList[0] * dataList[3] - dataList[1] * dataList[2])
+    if (dataList[0] + dataList[1] != 0):
+        scoreList.append(dataList[0] / (dataList[1] + dataList[0]))
+    else:
+        scoreList.append(0.0)
+    if (dataList[2] + dataList[3]) != 0:
+        scoreList.append(dataList[2] / (dataList[2] + dataList[3]))
+    else:
+        scoreList.append(0.0)
     dataList = dataList + scoreList
     # print dataList
     allDataList.append(dataList)
@@ -110,7 +119,7 @@ data_Test = np.array(allDataList)
 # data_Test = preprocessing.scale(data_Test)
 
 data_y_Test = model.predict(data_Test)
-
+fileToWrite.write("主场赢得比赛的置信度\r\n")
 for i in data_y_Test:
     fileToWrite.write(str(i) + "\r\n")
 file.close()
