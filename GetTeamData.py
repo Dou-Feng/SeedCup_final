@@ -1,21 +1,22 @@
 # player_ability
 #coding=utf-8
 
-K_SHOT_TIME = 0.0001
-K_SHOT_RATE = 0.001
-K_THREESHOT_RATE = 0.002
-K_THREESHOT_TIME = 0.003
-K_F_BB = 0.0003
-K_B_BB = 0.0001
-K_SCORE = 0.003
-K_LOSE = -0.003
-K_BLOCK = 0.004
-K_STEAL = 0.004
-K_CHARGE = -0.002
-K_PENALTY_TIME = 0.0001
-K_PENALTY_RATE = 0.0002
-K_SHOW = 0.0001
-K_FIRST_SHOW = 0.0002
+K_SHOT_TIME = 10
+K_SHOT_RATE = 3
+K_THREESHOT_RATE = 5
+K_THREESHOT_TIME = 7
+K_F_BB = 10
+K_B_BB = 6
+K_SCORE = 12
+K_LOSE = -5
+K_BLOCK = 11
+K_STEAL = 16
+K_CHARGE = -3
+K_PENALTY_TIME = 1
+K_PENALTY_RATE = 1
+K_SHOW = 1
+K_FIRST_SHOW = 2
+K_SHOWTIME_ALL = 1
 
 # player_in_team
 class Player:
@@ -54,7 +55,7 @@ class Player:
     sideEffectAb = 0
 
     def cal_ability(self):
-        self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime
+        self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime + K_SHOWTIME_ALL * self.playTime
         self.shootAb = K_SHOT_RATE * self.hitRate + K_SHOT_TIME * self.hitTime
         self.threeShootAb = K_SHOT_RATE * self.threeHitRate
         self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB
@@ -105,19 +106,38 @@ class Player:
 
 class Team:
     number = 0
-    players = []
-    all_importance = 0
-    shootAb = 0
-    threeShootAb = 0
-    bbAb = 0
-    penaltyAb = 0
-    attackAb = 0
-    defendAb = 0
-    sideEffectAb = 0
-    scoreAb = 0
+
 
     def __init__(self, number):
         self.number = number
+        self.players = []
+        self.all_importance = 0
+        self.shootAb = 0
+        self.threeShootAb = 0
+        self.bbAb = 0
+        self.penaltyAb = 0
+        self.attackAb = 0
+        self.defendAb = 0
+        self.sideEffectAb = 0
+        self.scoreAb = 0
+
+        self.hitRate = 0
+        self.hitTime = 0
+        self.shootTime = 0
+        self.threeHitRate = 0
+        self.threeHitTime = 0
+        self.threeShootTime = 0
+        self.penaltyRate = 0
+        self.penaltyHitTime = 0
+        self.penaltyTime = 0
+        self.backboard = 0
+        self.forwardBB = 0
+        self.backBB = 0
+        self.support = 0
+        self.steal = 0
+        self.block = 0
+        self.lose = 0
+        self.charge = 0
 
     def add_player(self, player):
         self.players.append(player)
@@ -131,12 +151,30 @@ class Team:
             self.penaltyAb += player.importance * player.penaltyAb / self.all_importance
             self.attackAb += player.importance * player.attackAb / self.all_importance
             self.defendAb += player.importance * player.defendAb /self.all_importance
-            self.sideEffectAb += player.importance * player.defendAb / self.all_importance
+            self.sideEffectAb += player.importance * player.sideEffectAb / self.all_importance
             self.scoreAb += player.importance * player.scoreAb / self.all_importance
+
+            self.hitRate += player.importance * player.hitRate / self.all_importance
+            self.hitTime += player.importance * player.hitTime / self.all_importance
+            self.shootTime += player.importance * player.shootTime / self.all_importance
+            self.threeHitRate += player.importance * player.threeHitRate / self.all_importance
+            self.threeHitTime += player.importance * player.threeHitTime / self.all_importance
+            self.threeShootTime += player.importance * player.threeShootTime / self.all_importance
+            self.penaltyRate += player.importance * player.penaltyRate / self.all_importance
+            self.penaltyHitTime += player.importance * player.penaltyHitTime / self.all_importance
+            self.penaltyTime += player.importance * player.penaltyTime / self.all_importance
+            self.backboard += player.importance * player.backboard / self.all_importance
+            self.forwardBB += player.importance * player.forwardBB / self.all_importance
+            self.backBB += player.importance * player.backBB / self.all_importance
+            self.support += player.importance * player.support / self.all_importance
+            self.steal += player.importance * player.steal / self.all_importance
+            self.block += player.importance * player.block / self.all_importance
+            self.lose += player.importance * player.lose / self.all_importance
+            self.charge += player.importance * player.charge / self.all_importance
 
 
 def TeamData():
-    teamData = open("./teamDataGet.csv", "r")
+    teamData = open("./teamData.csv", "r")
     teamData.readline()
     str = teamData.readline()
     str = str.split("\r\n")[0]
@@ -148,14 +186,27 @@ def TeamData():
         list_team.append(team_temp)
     while str != "":
         player = Player(list)
+        temp = 0.0
+        #debug player's ab
+        # if player.teamNumber == 1:
+        #     temp += player.shootAb * player.importance
+        # print temp, player.importance, player.shootAb
         list_player.append(player)
         str = teamData.readline()
         str = str.split("\r\n")[0]
         list = str.split(",")
+    print len(list_player)
     for player in list_player:
-        list_team[player.teamNumber].add_player(player)
+        team_num = player.teamNumber
+        team_temp = list_team[team_num]
+        team_temp.players.append(player)
+        team_temp.all_importance += player.importance
     j = 0
     for team in list_team:
+        print len(team.players)
         team.calTeamAb()
         j = j + 1
     return list_team
+
+
+
