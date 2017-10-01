@@ -5,14 +5,15 @@ K_SHOT_TIME = 0.01
 K_SHOT_RATE = 0.3
 K_THREESHOT_RATE = 0.5
 K_THREESHOT_TIME = 0.07
-K_F_BB = 0.10
+K_BB_ALL = 0.10
+K_F_BB = 0.11
 K_B_BB = 0.06
-K_SCORE = 0.12
+K_SCORE = 0.11
 K_LOSE = -0.05
 K_BLOCK = 0.11
 K_STEAL = 0.16
 K_CHARGE = -0.03
-K_PENALTY_TIME = 0.01
+K_PENALTY_TIME = 0.007
 K_PENALTY_RATE = 0.1
 K_SHOW = 0.01
 K_FIRST_SHOW = 0.02
@@ -54,17 +55,27 @@ class Player:
     attackAb = 0
     defendAb = 0
     sideEffectAb = 0
+    rateAb = 0
+    supportAb = 0
+    shootAb2 = 0
+    penaltyAb2 = 0
+
 
     def cal_ability(self):
         self.importance = K_SHOW * self.showUpTime + K_FIRST_SHOW * self.firstShowUpTime + K_SHOWTIME_ALL * self.playTime
         self.shootAb = K_SHOT_RATE * self.hitRate + K_SHOT_TIME * self.hitTime
         self.threeShootAb = K_SHOT_RATE * self.threeHitRate
-        self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB
+        self.bbAb = K_B_BB * self.backBB + K_F_BB * self.forwardBB + K_BB_ALL * self.backboard
         self.penaltyAb = K_PENALTY_RATE * self.penaltyRate + K_PENALTY_TIME * self.penaltyHitTime
         self.scoreAb = K_SCORE * self.score + K_CHARGE * self.charge + K_LOSE * self.lose + K_BLOCK * self.block + K_STEAL * self.steal
         self.attackAb = K_SHOT_TIME * self.shootTime + K_THREESHOT_TIME * self.threeShootTime + K_SCORE * self.score
         self.defendAb = K_BLOCK * self.block + K_STEAL * self.steal
         self.sideEffectAb = K_CHARGE * self.charge + K_LOSE * self.lose
+        self.rateAb = self.hitRate * K_SHOT_RATE + self.threeHitRate * K_THREESHOT_RATE + self.penaltyRate + K_PENALTY_RATE
+        self.supportAb = self.support / (self.scoreAb + 1)
+        self.shootAb2 = self.threeShootTime  / (self.shootTime + 1)
+
+
         self.hitRate *= K_SHOT_RATE
         self.hitTime *= K_SHOT_TIME
         self.shootTime *= K_SHOT_TIME
@@ -157,6 +168,10 @@ class Team:
         self.block = 0
         self.lose = 0
         self.charge = 0
+        self.rateAb = 0
+        self.supportAb = 0
+        self.shootAb2 = 0
+        self.penaltyAb2 = 0
 
     def add_player(self, player):
         self.players.append(player)
@@ -172,6 +187,9 @@ class Team:
             self.defendAb += player.importance * player.defendAb /self.all_importance
             self.sideEffectAb += player.importance * player.sideEffectAb / self.all_importance
             self.scoreAb += player.importance * player.scoreAb / self.all_importance
+            self.rateAb += player.importance * player.rateAb / self.all_importance
+            self.supportAb += player.importance * player.supportAb / self.all_importance
+            self.penaltyAb2 +=player.importance * player.penaltyAb2 / self.all_importance
 
             self.hitRate += player.importance * player.hitRate / self.all_importance
             self.hitTime += player.importance * player.hitTime / self.all_importance
@@ -190,6 +208,7 @@ class Team:
             self.block += player.importance * player.block / self.all_importance
             self.lose += player.importance * player.lose / self.all_importance
             self.charge += player.importance * player.charge / self.all_importance
+            self.shootAb2 += player.importance * player.shootAb2 / self.all_importance
 
 
 def TeamData():

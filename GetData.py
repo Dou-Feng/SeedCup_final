@@ -51,6 +51,9 @@ def getData():
         scoreList.append(team.defendAb)
         scoreList.append(team.sideEffectAb)
         scoreList.append(team.scoreAb)
+        scoreList.append(team.rateAb)
+        scoreList.append(team.supportAb)
+        scoreList.append(team.shootAb2)
 
         scoreList.append(team.hitRate)
         scoreList.append(team.hitTime)
@@ -81,6 +84,10 @@ def getData():
         scoreList.append(team.defendAb)
         scoreList.append(team.sideEffectAb)
         scoreList.append(team.scoreAb)
+        scoreList.append(team.rateAb)
+        scoreList.append(team.supportAb)
+        scoreList.append(team.shootAb2)
+
 
         scoreList.append(team.hitRate)
         scoreList.append(team.hitTime)
@@ -99,7 +106,7 @@ def getData():
         scoreList.append(team.block)
         scoreList.append(team.lose)
         scoreList.append(team.charge)
-        scoreList.append(dataList[2] * dataList[5] - dataList[3] * dataList[4])
+        scoreList.append((dataList[2] * dataList[5] - dataList[3] * dataList[4]))
         if (dataList[2] + dataList[3] != 0):
             scoreList.append(dataList[2]/(dataList[2] + dataList[3]))
         else:
@@ -111,6 +118,7 @@ def getData():
         
         del dataList[0]
         del dataList[0]
+
         dataList = dataList + scoreList
         allDataList.append(dataList)
         line = fileMatch.readline()
